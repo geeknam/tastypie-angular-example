@@ -1,0 +1,55 @@
+<html ng-app="Product">
+    <head>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/base.css">
+        <script src="/static/js/angular.min.js"></script>
+        <script src="/static/js/angular.resource.min.js"></script>
+        <script src="/static/js/products.js"></script>
+    </head>
+    <body>
+        <div class="container" ng:controller="ProductListController">
+            <h1 contenteditablefield="true">Products</h1>
+            <input type="text" class="search-query" placeholder="Search" ng-model="query" id="search-bar">
+            Sort by:
+            <select ng-model="orderProp">
+              <option value="name">Name</option>
+              <option value="code">Code</option>
+              <option value="weight">Weight</option>
+            </select>
+            <div class="row">
+                <section class="span3">
+                    <form ng-submit="addProduct()">
+                        Name:
+                        <input type="text" ng-model="product.name" required><br />
+                        Code:
+                        <input type="text" ng-model="product.code" required><br />
+                        Weight:
+                        <input type="number" ng-model="product.weight"><br />
+                        <input class="btn btn-primary" type="submit" value="Add">
+                    </form>
+                </section>
+                <section class="span8">
+                    <table class="table table-bordered span8">
+                        <thead>
+                            <th>Product name</th>
+                            <th>Product code</th>
+                            <th>Product weight</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="product in products | filter:query | orderBy:orderProp" ng-controller="ProductController">
+                                <td><input type="text" ng-model="product.name" value="<[ product.name ]>"></td>
+                                <td><input type="text" ng-model="product.code" value="<[ product.code ]>"></td>
+                                <td><input type="text" ng-model="product.weight" value="<[ product.weight ]>"></td>
+                                <td>
+                                    <button ng-click="update(product)" class="btn">Update</button>
+                                    <button ng-click="remove(product, $index)" class="btn">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

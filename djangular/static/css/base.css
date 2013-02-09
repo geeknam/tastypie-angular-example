@@ -1,0 +1,21 @@
+
+h1 {
+    padding: 10px 0;
+}
+
+input{
+    padding: 12px 5px;
+}
+
+.row {
+    margin-top: 10px;
+}
+
+table input[type=text] {
+    width: 150px;
+}
+
+
+#search-bar {
+    margin-right: 50px;
+}
