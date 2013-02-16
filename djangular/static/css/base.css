@@ -15,7 +15,15 @@ table input[type=text] {
     width: 150px;
 }
 
-
 #search-bar {
     margin-right: 50px;
+}
+
+.container img {
+    float: right;
+    margin-right: 55px;
+}
+
+.hide {
+    display: none;
 }

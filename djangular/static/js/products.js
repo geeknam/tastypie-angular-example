@@ -21,8 +21,10 @@ angular.module('Product', ['ngResource'], function ($interpolateProvider){
     };
 
     Product.create = function(product) {
-        return $http.post('/api/product/', product).then(function(response) {
+        return $http.post('/api/product/', product).success(function(response) {
             return response.data;
+        }).error(function(data){
+            console.log(data);
         });
     };
 
@@ -44,31 +46,39 @@ angular.module('Product', ['ngResource'], function ($interpolateProvider){
 
 
 function ProductListController($scope, Product, $resource) {
-    $scope.products = Product.getAll();
+    $resource('/api/product/').get(function(response){
+        $scope.products = response.objects;
+    });
     $scope.orderProp = 'code';
 
     $scope.addProduct = function(){
-        var product = new Product(Product.create($scope.product));
-        $scope.$emit('product_added', product);
+        $("#loader").removeClass("hide");
+        var product = Product.create($scope.product);
+        $scope.$emit('product_added', product.$$v);
     };
 
     $scope.$on("product_added", function(event, product){
-        $scope.products.$$v.push(product);
+        $scope.products.push(product);
+        $("#loader").addClass("hide");
     });
 }
 
 
 function ProductController($scope, Product) {
-
     $scope.update = function(data){
+        $("#loader").removeClass("hide");
         var product = new Product(data);
         product.update();
+        $("#loader").addClass("hide");
     };
 
     $scope.remove = function(data, index){
+        $("#loader").removeClass("hide");
+        var products = $scope.products;
         var product = new Product(data);
-        $scope.products.$$v.splice(index, 1);
+        products.splice(products.indexOf(product), 1);
         product.remove(product.id);
+        $("#loader").addClass("hide");
     };
 
 }

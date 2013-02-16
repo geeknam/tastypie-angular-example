@@ -16,3 +16,5 @@ build
 
 # Celerybeat scheduler file:
 celerybeat-schedule
+
+.DS_Store
